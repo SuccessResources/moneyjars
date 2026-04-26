@@ -1424,9 +1424,8 @@ const worldCountries = [
 })();
 
 // ─── UTM CAPTURE ───
-(function() {
+function captureUTMParams() {
     const p = new URLSearchParams(window.location.search);
-    document.getElementById('utmSourceInput').value = p.get('utm_source') || '';
     window.utmParams = {
         utm_source:   p.get('utm_source')   || '',
         utm_medium:   p.get('utm_medium')   || '',
@@ -1436,7 +1435,17 @@ const worldCountries = [
         referrer:     document.referrer     || 'direct',
         landing_page: window.location.href
     };
-})();
+    const utmInput = document.getElementById('utmSourceInput');
+    if (utmInput) utmInput.value = window.utmParams.utm_source;
+    console.log('UTM Params Captured:', window.utmParams);
+}
+
+// Capture on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', captureUTMParams);
+} else {
+    captureUTMParams();
+}
 
 // ─── CALCULATOR LOGIC ───
 const incomeInput    = document.getElementById('incomeInput');
@@ -1518,9 +1527,11 @@ window.addEventListener('scroll', () => {
     const doc  = document.documentElement;
     const pct  = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
     document.getElementById('scrollProgress').style.width = pct + '%';
+    const calc = document.getElementById('calculatorContent');
     const cta  = document.getElementById('stickyCTA');
-    // Show sticky button only when scrolled to the end (85% of page)
-    cta.classList.toggle('show', pct >= 85);
+    // Show sticky button only after calculator is unlocked AND user scrolls past it
+    const showButton = calc.classList.contains('visible') && pct >= 50;
+    cta.classList.toggle('show', showButton);
 });
 
 // ─── INTERSECTION OBSERVER ───
@@ -1690,6 +1701,11 @@ function handleSubmit(e) {
         hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
     });
 
+    // Ensure UTM params are fresh at submission time
+    if (!window.utmParams) {
+        captureUTMParams();
+    }
+
     const payload = {
         first_name:     document.getElementById('firstNameInput').value.trim(),
         last_name:      document.getElementById('lastNameInput').value.trim(),
@@ -1704,18 +1720,27 @@ function handleSubmit(e) {
         optin_date_time: optinDateTime,
         optin_timezone:  'Asia/Kuala_Lumpur',
         event:          'money_jar_signup',
-        utm_source:     (window.utmParams && window.utmParams.utm_source) || '',
-        utm_medium:     (window.utmParams && window.utmParams.utm_medium) || '',
-        utm_campaign:   (window.utmParams && window.utmParams.utm_campaign) || '',
-        utm_term:       (window.utmParams && window.utmParams.utm_term) || '',
-        utm_content:    (window.utmParams && window.utmParams.utm_content) || '',
-        referrer:       (window.utmParams && window.utmParams.referrer) || '',
-        landing_page:   (window.utmParams && window.utmParams.landing_page) || '',
+        utm_source:     window.utmParams.utm_source || '',
+        utm_medium:     window.utmParams.utm_medium || '',
+        utm_campaign:   window.utmParams.utm_campaign || '',
+        utm_term:       window.utmParams.utm_term || '',
+        utm_content:    window.utmParams.utm_content || '',
+        referrer:       window.utmParams.referrer || '',
+        landing_page:   window.utmParams.landing_page || '',
     };
 
     const zapierData = new URLSearchParams();
     Object.entries(payload).forEach(([key, value]) => {
         zapierData.append(key, value || '');
+    });
+
+    console.log('Submitting Zapier data with UTM:', {
+        utm_source: payload.utm_source,
+        utm_medium: payload.utm_medium,
+        utm_campaign: payload.utm_campaign,
+        utm_term: payload.utm_term,
+        utm_content: payload.utm_content,
+        referrer: payload.referrer
     });
 
     fetch('https://hooks.zapier.com/hooks/catch/3673966/ujpmb5y/', {
