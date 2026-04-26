@@ -1696,16 +1696,41 @@ function handleSubmit(e) {
     const gateCurrency = document.getElementById('currencyInputGate').value;
     const gateIncome   = document.getElementById('incomeInputGate').value.trim();
 
-    const payload = {
-        first_name:    document.getElementById('firstNameInput').value.trim(),
-        last_name:     document.getElementById('lastNameInput').value.trim(),
-        email:         document.getElementById('emailInput').value.trim(),
-        phone_code:    document.getElementById('countryCodeSelect').value,
-        phone_number:  document.getElementById('phoneInput').value.trim(),
-        phone_full:    (document.getElementById('countryCodeSelect').value + ' ' + document.getElementById('phoneInput').value).trim(),
-        currency:      gateCurrency,
+    const selectedPhoneCode = document.getElementById('countryCodeSelect').value;
+    const selectedCountryObj = worldCountries.find(c => c.code === selectedPhoneCode);
+
+    const phoneNumber = document.getElementById('phoneInput').value.trim();
+    const phoneFull = (selectedPhoneCode + ' ' + phoneNumber).trim();
+
+    const optinDateTime = new Date().toLocaleString('en-GB', {
+    timeZone: 'Asia/Kuala_Lumpur',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+});
+
+const payload = {
+        first_name:     document.getElementById('firstNameInput').value.trim(),
+        last_name:      document.getElementById('lastNameInput').value.trim(),
+        email:          document.getElementById('emailInput').value.trim(),
+
+        country:        selectedCountryObj ? selectedCountryObj.name : '',
+        country_iso:    selectedCountryObj ? selectedCountryObj.iso : '',
+        phone_code:     selectedPhoneCode,
+        phone_number:   phoneNumber,
+        phone_full:     phoneFull,
+
+        currency:       gateCurrency,
         monthly_income: gateIncome,
-        event:         'money_jar_signup',
+
+        optin_date_time: optinDateTime,
+        optin_timezone:  'Asia/Kuala_Lumpur',
+
+        event:          'money_jar_signup',
         ...(window.utmParams || {})
     };
 
