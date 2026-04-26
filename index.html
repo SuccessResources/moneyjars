@@ -579,7 +579,7 @@
             padding: 30px 22px; box-shadow: 0 4px 14px rgba(0,0,0,.06);
             opacity: 0; transform: translateY(24px);
         }
-        .stat-card.animate-in { animation: bounceIn .6s cubic-bezier(.34,1.56,.64,1) forwards; }
+        .stat-card.animate-in { animation: bounceIn .6s cubic-bezier(.34,1.56,.64,1) forwards; opacity: 1; transform: translateY(0); }
         .stat-number { font-family: 'Playfair Display', Georgia, serif; font-size: 50px; font-weight: 700; color: var(--green-mid); margin-bottom: 8px; }
         .stat-label  { font-size: 15px; color: #666; line-height: 1.5; }
 
@@ -627,6 +627,26 @@
         .hybrid-cta-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(167,129,56,.55); }
         .hybrid-details { font-size: 14px; color: rgba(255,255,255,.88); }
         .hybrid-details strong { color: #fff; }
+
+        /* ── ACTION BUTTON ANIMATION ── */
+        .action-btn {
+            position: relative;
+            overflow: hidden;
+            animation: pulseAction 2s ease-in-out infinite;
+        }
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+            transition: left .5s;
+        }
+        .action-btn:hover::before { left: 100%; }
+        @keyframes pulseAction {
+            0%, 100% { box-shadow: 0 8px 24px rgba(167,129,56,.45); }
+            50% { box-shadow: 0 12px 36px rgba(167,129,56,.65); }
+        }
 
         /* ── STICKY CTA ── */
         .sticky-cta {
@@ -1189,7 +1209,7 @@
                 <div class="mac-intro-text">Learn the proven money allocation system from the Millionaire Mind Intensive, taught by Lead Trainer Mac Attram, and discover how top wealth builders strategically manage and grow their money.</div>
             </div>
             <div class="lessons-list">
-                <a href="https://www.millionairemind.live/ymc-lesson1" class="lesson-item">
+                <a href="https://www.millionairemind.online/jar-lesson-1-kpv" class="lesson-item">
                     <div class="lesson-number">1</div>
                     <div class="lesson-content">
                         <div class="lesson-title">Foundation: Understanding Your Money Blueprint</div>
@@ -1197,7 +1217,7 @@
                     </div>
                     <img src="https://cch-files.edge.live.ds25.io/cch/v/a4e3489d-6bf3-48c8-affb-c268ba45a538/files/6548a956553b1_l1-thumb.png" alt="Lesson 1" class="lesson-thumb">
                 </a>
-                <a href="https://www.millionairemind.live/ymc-lesson2" class="lesson-item">
+                <a href="https://www.millionairemind.online/jar-lesson-2-kpv" class="lesson-item">
                     <div class="lesson-number">2</div>
                     <div class="lesson-content">
                         <div class="lesson-title">The 6 JARS System Explained</div>
@@ -1205,7 +1225,7 @@
                     </div>
                     <img src="https://cch-files.edge.live.ds25.io/cch/v/a4e3489d-6bf3-48c8-affb-c268ba45a538/files/654a0b4a2044e_2-5.png" alt="Lesson 2" class="lesson-thumb">
                 </a>
-                <a href="https://www.millionairemind.live/ymc-lesson3" class="lesson-item">
+                <a href="https://www.millionairemind.online/jar-lesson-3-kpv" class="lesson-item">
                     <div class="lesson-number">3</div>
                     <div class="lesson-content">
                         <div class="lesson-title">Making It Automatic</div>
@@ -1213,7 +1233,7 @@
                     </div>
                     <img src="https://cch-files.edge.live.ds25.io/cch/v/a4e3489d-6bf3-48c8-affb-c268ba45a538/files/6548ae2d1f2aa_3.png" alt="Lesson 3" class="lesson-thumb">
                 </a>
-                <a href="https://www.millionairemind.live/ymc-lesson4" class="lesson-item">
+                <a href="https://www.millionairemind.online/jar-lesson-4-kpv" class="lesson-item">
                     <div class="lesson-number">4</div>
                     <div class="lesson-content">
                         <div class="lesson-title">Accelerate Your Path to Financial Freedom</div>
@@ -1223,7 +1243,7 @@
                 </a>
             </div>
             <div class="lessons-cta">
-                <a href="https://www.millionairemind.online/" class="lessons-cta-btn">Ready? Take the 3-Day Millionaire Mind Hybrid →</a>
+                <a href="https://www.millionairemind.online/jar-lesson-1-kpv" class="lessons-cta-btn">Access the lessons now</a>
                 <p class="lessons-note">Watch the lessons free. Apply the system in the 3-day intensive.</p>
             </div>
         </div>
@@ -1284,7 +1304,7 @@
                 </div>
             </div>
             <div class="hybrid-cta-group">
-                <a href="https://www.millionairemind.online/" class="hybrid-cta-btn">Reserve Your Seat Now</a>
+                <a href="https://www.millionairemind.online/jar-lesson-1-kpv" class="hybrid-cta-btn action-btn">I want to take action now</a>
                 <div class="hybrid-details">
                     <strong>Live 3-Day Hybrid Event</strong> • Early-Bird Access • 30-Day Money-Back Guarantee
                 </div>
@@ -1295,8 +1315,8 @@
 <!-- ═══════════════════════════════ END CALCULATOR ═══════════════════════════════ -->
 
 <!-- Sticky CTA -->
-<a href="https://www.millionairemind.online/" class="sticky-cta" id="stickyCTA" aria-label="Reserve your seat">
-    <span>Reserve Your Seat</span>
+<a href="https://www.millionairemind.online/jar-lesson-1-kpv" class="sticky-cta action-btn" id="stickyCTA" aria-label="Take action now">
+    <span>Take Action Now</span>
     <span>→</span>
 </a>
 
@@ -1498,9 +1518,9 @@ window.addEventListener('scroll', () => {
     const doc  = document.documentElement;
     const pct  = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
     document.getElementById('scrollProgress').style.width = pct + '%';
-    const calc = document.getElementById('calculatorContent');
     const cta  = document.getElementById('stickyCTA');
-    cta.classList.toggle('show', calc.classList.contains('visible'));
+    // Show sticky button only when scrolled to the end (85% of page)
+    cta.classList.toggle('show', pct >= 85);
 });
 
 // ─── INTERSECTION OBSERVER ───
@@ -1540,6 +1560,12 @@ const statObserver = new IntersectionObserver((entries) => {
         statObserver.unobserve(el);
     });
 }, { threshold: 0, rootMargin: '0px 0px -20px 0px' });
+
+// Set up observers immediately for all elements
+document.querySelectorAll('.jar-explanation-card').forEach(el => observer.observe(el));
+document.querySelectorAll('.lesson-item').forEach(el => observer.observe(el));
+document.querySelectorAll('.stat-card').forEach(el => statObserver.observe(el));
+document.querySelectorAll('.problem-section, .reality-section, .hybrid-bridge').forEach(el => observer.observe(el));
 
 // ─── FORM VALIDATION ───
 function showError(id, msg) {
@@ -1678,6 +1704,13 @@ function handleSubmit(e) {
         optin_date_time: optinDateTime,
         optin_timezone:  'Asia/Kuala_Lumpur',
         event:          'money_jar_signup',
+        utm_source:     (window.utmParams && window.utmParams.utm_source) || '',
+        utm_medium:     (window.utmParams && window.utmParams.utm_medium) || '',
+        utm_campaign:   (window.utmParams && window.utmParams.utm_campaign) || '',
+        utm_term:       (window.utmParams && window.utmParams.utm_term) || '',
+        utm_content:    (window.utmParams && window.utmParams.utm_content) || '',
+        referrer:       (window.utmParams && window.utmParams.referrer) || '',
+        landing_page:   (window.utmParams && window.utmParams.landing_page) || '',
     };
 
     const zapierData = new URLSearchParams();
