@@ -1709,15 +1709,21 @@ function handleSubmit(e) {
         ...(window.utmParams || {})
     };
 
+    const formData = new FormData();
+
+    Object.entries(payload).forEach(([key, value]) => {
+    formData.append(key, value);
+    });
+
     fetch('https://hooks.zapier.com/hooks/catch/3673966/ujpmb5y/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        mode: 'no-cors',
+        body: formData
     }).catch(err => console.error('Webhook error:', err))
       .finally(() => {
-          setTimeout(() => showCalculator(gateCurrency, gateIncome), 1800);
+      setTimeout(() => showCalculator(gateCurrency, gateIncome), 1800);
       });
-
+    
     return false;
 }
 
