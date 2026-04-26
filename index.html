@@ -1402,6 +1402,21 @@ const worldCountries = [
     } catch(e) {}
 })();
 
+// ─── UTM CAPTURE ───
+(function() {
+    const p = new URLSearchParams(window.location.search);
+    document.getElementById('utmSourceInput').value = p.get('utm_source') || '';
+    window.utmParams = {
+        utm_source:   p.get('utm_source')   || '',
+        utm_medium:   p.get('utm_medium')   || '',
+        utm_campaign: p.get('utm_campaign') || '',
+        utm_term:     p.get('utm_term')     || '',
+        utm_content:  p.get('utm_content')  || '',
+        referrer:     document.referrer     || 'direct',
+        landing_page: window.location.href
+    };
+})();
+
 // ─── CALCULATOR LOGIC ───
 const incomeInput    = document.getElementById('incomeInput');
 const currencySelect = document.getElementById('currencySelect');
