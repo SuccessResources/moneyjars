@@ -1498,7 +1498,7 @@ const observer = new IntersectionObserver((entries) => {
         if (el.classList.contains('lesson-item')) {
             el.classList.add('animate-in');
         }
-        if (el.classList.contains('reality-section') || el.classList.contains('hybrid-bridge')) {
+        if (el.classList.contains('problem-section') || el.classList.contains('reality-section') || el.classList.contains('hybrid-bridge')) {
             el.classList.add('animate-in');
         }
         observer.unobserve(el);
@@ -1619,7 +1619,7 @@ function showCalculator(currency, income) {
         document.querySelectorAll('.jar-explanation-card').forEach(el => observer.observe(el));
         document.querySelectorAll('.lesson-item').forEach(el => observer.observe(el));
         document.querySelectorAll('.stat-card').forEach(el => statObserver.observe(el));
-        document.querySelectorAll('.reality-section, .hybrid-bridge').forEach(el => observer.observe(el));
+        document.querySelectorAll('.problem-section, .reality-section, .hybrid-bridge').forEach(el => observer.observe(el));
     }, 400);
 }
 
